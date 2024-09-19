@@ -13,18 +13,18 @@ const log = require("../tools/log");
  */
 async function createPrintWindow() {
   const windowOptions = {
-    width: 100, // 窗口宽度
-    height: 100, // 窗口高度
-    show: false, // 不显示
+    width: 800, // 窗口宽度
+    height: 600, // 窗口高度
+    show: true, // 不显示
     webPreferences: {
       contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
       nodeIntegration: true,
+      devTools: true,
     },
   };
 
   // 创建打印窗口
   PRINT_WINDOW = new BrowserWindow(windowOptions);
-
   // 加载打印渲染进程页面
   let printHtml = path.join("file://", app.getAppPath(), "/assets/print.html");
   PRINT_WINDOW.webContents.loadURL(printHtml);
@@ -45,14 +45,14 @@ async function createPrintWindow() {
  * @return {Void}
  */
 function initPrintEvent() {
-  ipcMain.on("do", (event, data) => {
+  ipcMain.on("do", async (event, data) => {
     var socket = null;
     if (data.clientType === "local") {
       socket = SOCKET_SERVER.sockets.sockets.get(data.socketId);
     } else {
       socket = SOCKET_CLIENT;
     }
-    const printers = PRINT_WINDOW.webContents.getPrinters();
+    const printers = await PRINT_WINDOW.webContents.getPrintersAsync();
     let havePrinter = false;
     let defaultPrinter = "";
     let printerError = false;
@@ -80,7 +80,9 @@ function initPrintEvent() {
     });
     if (printerError) {
       log(
-        `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印失败，打印机异常，打印机：${data.printer}`
+        `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+          data.templateId
+        }】 打印失败，打印机异常，打印机：${data.printer}`
       );
       socket &&
         socket.emit("error", {
@@ -121,7 +123,11 @@ function initPrintEvent() {
           printPdf(pdfPath, deviceName, data)
             .then(() => {
               log(
-                `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印成功，打印类型：PDF，打印机：${deviceName}，页数：${data.pageNum}`
+                `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+                  data.templateId
+                }】 打印成功，打印类型：PDF，打印机：${deviceName}，页数：${
+                  data.pageNum
+                }`
               );
               if (socket) {
                 const result = {
@@ -135,7 +141,11 @@ function initPrintEvent() {
             })
             .catch((err) => {
               log(
-                `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印失败，打印类型：PDF，打印机：${deviceName}，原因：${err.message}`
+                `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+                  data.templateId
+                }】 打印失败，打印类型：PDF，打印机：${deviceName}，原因：${
+                  err.message
+                }`
               );
               socket &&
                 socket.emit("error", {
@@ -160,7 +170,11 @@ function initPrintEvent() {
       printPdf(data.pdf_path, deviceName, data)
         .then(() => {
           log(
-            `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印成功，打印类型：URL_PDF，打印机：${deviceName}，页数：${data.pageNum}`
+            `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+              data.templateId
+            }】 打印成功，打印类型：URL_PDF，打印机：${deviceName}，页数：${
+              data.pageNum
+            }`
           );
           if (socket) {
             const result = {
@@ -174,7 +188,11 @@ function initPrintEvent() {
         })
         .catch((err) => {
           log(
-            `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印失败，打印类型：URL_PDF，打印机：${deviceName}，原因：${err.message}`
+            `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+              data.templateId
+            }】 打印失败，打印类型：URL_PDF，打印机：${deviceName}，原因：${
+              err.message
+            }`
           );
           socket &&
             socket.emit("error", {
@@ -219,7 +237,11 @@ function initPrintEvent() {
         if (socket) {
           if (success) {
             log(
-              `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印成功，打印类型 HTML，打印机：${deviceName}，页数：${data.pageNum}`
+              `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+                data.templateId
+              }】 打印成功，打印类型 HTML，打印机：${deviceName}，页数：${
+                data.pageNum
+              }`
             );
             const result = {
               msg: "打印成功",
@@ -230,7 +252,9 @@ function initPrintEvent() {
             socket.emit("success", result);
           } else {
             log(
-              `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印失败，打印类型 HTML，打印机：${deviceName}，原因：${failureReason}`
+              `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
+                data.templateId
+              }】 打印失败，打印类型 HTML，打印机：${deviceName}，原因：${failureReason}`
             );
             socket.emit("error", {
               msg: failureReason,
