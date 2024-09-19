@@ -13,12 +13,13 @@ const log = require("../tools/log");
  */
 async function createPrintWindow() {
   const windowOptions = {
-    width: 100, // 窗口宽度
-    height: 100, // 窗口高度
+    width: 800, // 窗口宽度
+    height: 600, // 窗口高度
     show: false, // 不显示
     webPreferences: {
       contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
       nodeIntegration: true,
+      devTools: false,
     },
   };
 

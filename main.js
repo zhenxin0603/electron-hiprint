@@ -118,6 +118,11 @@ async function initialize() {
     event.sender.send("machineId", machineIdSync({ original: true }));
   });
 
+  // 获取app版本号
+  ipcMain.on("getVersion", (event) => {
+    event.sender.send("version", app.getVersion());
+  });
+
   // 获取设备ip、mac等信息
   ipcMain.on("getAddress", (event) => {
     address.all().then((obj) => {
@@ -187,6 +192,7 @@ async function createWindow() {
   // 未打包时打开开发者工具
   if (!app.isPackaged) {
     MAIN_WINDOW.webContents.openDevTools();
+    MAIN_WINDOW.setSize(1100, 300);
   }
 
   // 退出
@@ -294,7 +300,7 @@ function initTray() {
   APP_TRAY = new Tray(trayPath);
 
   // 托盘提示标题
-  APP_TRAY.setToolTip("hiprint");
+  APP_TRAY.setToolTip("hiprint " + app.getVersion());
 
   // 托盘菜单
   const trayMenuTemplate = [
