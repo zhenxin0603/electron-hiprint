@@ -1,6 +1,6 @@
 {
   "name": "electron-hiprint",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "vue-plugin-hiprint client",
   "main": "main.js",
   "author": "CcSimple<840054486@qq.com>",
@@ -99,7 +99,7 @@
   },
   "devDependencies": {
     "electron": "32.1.1",
-    "electron-builder": "23.0.6",
+    "electron-builder": "25.1.3",
     "fs-extra": "^9.1.0",
     "prettier": "^1.16.4",
     "uglify-js": "^3.14.3"
