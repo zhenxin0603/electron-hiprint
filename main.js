@@ -187,6 +187,7 @@ async function createWindow() {
   // 未打包时打开开发者工具
   if (!app.isPackaged) {
     MAIN_WINDOW.webContents.openDevTools();
+    MAIN_WINDOW.setSize(1100, 300);
   }
 
   // 退出
@@ -294,7 +295,7 @@ function initTray() {
   APP_TRAY = new Tray(trayPath);
 
   // 托盘提示标题
-  APP_TRAY.setToolTip("hiprint");
+  APP_TRAY.setToolTip("hiprint " + process.env.npm_package_version);
 
   // 托盘菜单
   const trayMenuTemplate = [
