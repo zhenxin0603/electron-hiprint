@@ -118,6 +118,11 @@ async function initialize() {
     event.sender.send("machineId", machineIdSync({ original: true }));
   });
 
+  // 获取设备唯一id
+  ipcMain.on("getVersion", (event) => {
+    event.sender.send("version", app.getVersion());
+  });
+
   // 获取设备ip、mac等信息
   ipcMain.on("getAddress", (event) => {
     address.all().then((obj) => {
