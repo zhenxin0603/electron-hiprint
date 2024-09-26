@@ -300,7 +300,7 @@ function initTray() {
   APP_TRAY = new Tray(trayPath);
 
   // 托盘提示标题
-  APP_TRAY.setToolTip("hiprint " + process.env.npm_package_version);
+  APP_TRAY.setToolTip("hiprint " + app.getVersion());
 
   // 托盘菜单
   const trayMenuTemplate = [
