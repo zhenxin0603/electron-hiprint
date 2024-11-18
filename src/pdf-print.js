@@ -11,8 +11,10 @@ const pdfPrint2 = require("unix-print");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const { Blob } = require("buffer");
 
-const printPdfFunction = process.platform === "win32" ? pdfPrint1.print : pdfPrint2.print;
+const printPdfFunction =
+  process.platform === "win32" ? pdfPrint1.print : pdfPrint2.print;
 
 const randomStr = () => {
   return Math.random()
@@ -50,7 +52,9 @@ const printPdf = (pdfPath, printer, data) => {
         reject("pdfPath must be a string");
       }
       if (/^https?:\/\/.+/.test(pdfPath)) {
-        const client = pdfPath.startsWith("https") ? require("https") : require("http");
+        const client = pdfPath.startsWith("https")
+          ? require("https")
+          : require("http");
         client
           .get(pdfPath, (res) => {
             const toSaveFilename = randomStr() + "_hiprint.pdf";
@@ -67,6 +71,22 @@ const printPdf = (pdfPath, printer, data) => {
           .on("error", (err) => {
             console.log("download pdf error:" + err.message);
           });
+        return;
+      }
+      if (!fs.existsSync(pdfPath)) {
+        const toSaveFilename = randomStr() + "_hiprint.pdf";
+        const toSavePath = path.join(os.tmpdir(), toSaveFilename);
+
+        const parseDataUrl = require("parse-data-url");
+        const parsed = parseDataUrl(pdfPath);
+        const fileData = parsed.toBuffer();
+
+        // 将数据写入文件
+        fs.writeFile(toSavePath, fileData, "base64", (err) => {
+          if (err) reject(err);
+          console.log("file downloaded:" + toSavePath);
+          realPrint(toSavePath, printer, data, resolve, reject);
+        });
         return;
       }
       realPrint(pdfPath, printer, data, resolve, reject);

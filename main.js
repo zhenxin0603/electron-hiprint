@@ -118,7 +118,7 @@ async function initialize() {
     event.sender.send("machineId", machineIdSync({ original: true }));
   });
 
-  // 获取设备唯一id
+  // 获取app版本号
   ipcMain.on("getVersion", (event) => {
     event.sender.send("version", app.getVersion());
   });
