@@ -15,11 +15,10 @@ async function createPrintWindow() {
   const windowOptions = {
     width: 800, // 窗口宽度
     height: 600, // 窗口高度
-    show: false, // 不显示
+    show: true, // 不显示
     webPreferences: {
       contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
       nodeIntegration: true,
-      devTools: false,
     },
   };
 
@@ -31,9 +30,10 @@ async function createPrintWindow() {
   PRINT_WINDOW.webContents.loadURL(printHtml);
 
   // 未打包时打开开发者工具
-  // if (!app.isPackaged) {
-  //   PRINT_WINDOW.webContents.openDevTools();
-  // }
+  if (!app.isPackaged) {
+    PRINT_WINDOW.webContents.openDevTools();
+    PRINT_WINDOW.setSize(1100, 300);
+  }
 
   // 绑定窗口事件
   initPrintEvent();
@@ -220,7 +220,7 @@ function initPrintEvent() {
         if (socket) {
           if (success) {
             log(
-              `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印成功，打印类型 HTML，打印机：${deviceName}，页数：${data.pageNum}`
+              `${data.replyId?'中转服务':'插件端'} ${socket.id} 模板 【${data.templateId}】 打印成功，打印类型 HTML，打印机：${deviceName}，内容：${JSON.stringify(data)}`
             );
             const result = {
               msg: "打印成功",
