@@ -63,6 +63,7 @@
 
       $(document).ready(function() {
         ipcRenderer.on("print-new", (event, data) => {
+          console.log(event, data)
           document.title = data.title ? data.title : "hiprint打印";
           if (data.html == null) {
             ipcRenderer.send("do", data);

@@ -377,7 +377,9 @@ function initServeEvent(server) {
      */
     socket.on("news", (data) => {
       if (data) {
+        log(`news ${socket.id}: data: ${JSON.stringify(data)}`);
         PRINT_RUNNER.add((done) => {
+          log(`news add ${socket.id}: data: ${JSON.stringify(data)}`);
           data.socketId = socket.id;
           data.taskId = new Date().getTime();
           data.clientType = "local";
