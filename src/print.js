@@ -240,9 +240,9 @@ function initPrintEvent() {
               log(
                 `${data.replyId ? "中转服务" : "插件端"} ${socket.id} 模板 【${
                   data.templateId
-                }】 打印成功，打印类型 HTML，打印机：${deviceName}，页数：${
-                  data.pageNum
-                }`
+                }】 打印成功，打印类型 HTML，打印机：${deviceName}，内容：${JSON.stringify(
+                  data
+                )}`
               );
               const result = {
                 msg: "打印成功",
