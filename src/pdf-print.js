@@ -11,7 +11,6 @@ const pdfPrint2 = require("unix-print");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-const { Blob } = require("buffer");
 
 const printPdfFunction =
   process.platform === "win32" ? pdfPrint1.print : pdfPrint2.print;
