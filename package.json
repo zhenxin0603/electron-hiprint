@@ -1,6 +1,6 @@
 {
   "name": "electron-hiprint",
-  "version": "1.2.11",
+  "version": "1.2.15",
   "description": "vue-plugin-hiprint client",
   "main": "main.js",
   "author": "CcSimple<840054486@qq.com>",
@@ -91,6 +91,7 @@
     "ipp": "^2.0.1",
     "jquery": "^3.6.0",
     "node-machine-id": "^1.1.12",
+    "parse-data-url": "^6.0.0",
     "pdf-to-printer": "^5.6.0",
     "socket.io": "^3.1.0",
     "socket.io-client": "^3.1.0",
