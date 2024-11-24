@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=hiprint
+Exec=/home/hiprint/electron-hiprint
+Icon=default
+StartupNotify=false
+Terminal=false
+Type=Application
+StartupWMClass=generalstartup
+Name[zh_CN]=hiprint打印客户端
