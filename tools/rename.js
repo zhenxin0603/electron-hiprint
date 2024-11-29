@@ -6,7 +6,7 @@ const fs = require("fs");
 class ReName {
   constructor() {
     this.basePath = path.normalize(__dirname + "/..");
-    this.dirs = path.join(this.basePath, "/out/");
+    this.dirs = path.join(this.basePath, "/../out/");
   }
   /**
    * 格式化参数

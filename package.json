@@ -26,7 +26,7 @@
     "appId": "com.simple.cc.hiprint",
     "copyright": "CcSimple<840054486@qq.com>",
     "directories": {
-      "output": "out"
+      "output": "../out"
     },
     "asar": true,
     "files": [
