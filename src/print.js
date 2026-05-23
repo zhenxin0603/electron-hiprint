@@ -219,15 +219,15 @@ function initPrintEvent() {
           printBackground: data.printBackground ?? true, // 是否打印背景
           deviceName: deviceName, // 打印机名称
           color: data.color ?? true, // 是否打印颜色
-          margins: data.margins ?? {
-            marginType: "none",
-          }, // 边距
+          margins: data.margins ?? { marginType: "none" }, // 边距
           landscape: data.landscape ?? false, // 是否横向打印
           scaleFactor: data.scaleFactor ?? 100, // 打印缩放比例
           pagesPerSheet: data.pagesPerSheet ?? 1, // 每张纸的页数
           collate: data.collate ?? true, // 是否排序
           copies: data.copies ?? 1, // 打印份数
-          pageRanges: data.pageRanges ?? {}, // 打印页数
+          displayHeaderFooter: data.displayHeaderFooter ?? false, // 不显示页眉页脚
+          preferCSSPageSize: data.preferCSSPageSize ?? true, // 使用CSS @page指定的页面尺寸
+          ...(data.pageRanges ? { pageRanges: data.pageRanges } : {}), // 仅在有值时传递
           duplexMode: data.duplexMode, // 打印模式 simplex,shortEdge,longEdge
           dpi: data.dpi, // 打印机DPI
           header: data.header, // 打印头
